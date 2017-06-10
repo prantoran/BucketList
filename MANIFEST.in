@@ -1,0 +1,3 @@
+graft bucketlist/templates
+graft bucketlist/static
+include bucketlist/schema.sql
