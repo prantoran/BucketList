@@ -1,0 +1,14 @@
+MANIFEST.in
+bucketlist/__init__.py
+bucketlist/bucketlist.py
+bucketlist/schema.sql
+bucketlist.egg-info/PKG-INFO
+bucketlist.egg-info/SOURCES.txt
+bucketlist.egg-info/dependency_links.txt
+bucketlist.egg-info/requires.txt
+bucketlist.egg-info/top_level.txt
+bucketlist/static/signup.css
+bucketlist/static/js/jquery-3.2.1.js
+bucketlist/templates/index.html
+bucketlist/templates/signin.html
+bucketlist/templates/signup.html

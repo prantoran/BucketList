@@ -12,4 +12,21 @@
 
 ## Running in Linux console:
 
-	$ source scripts/build.sh 
+	$ source scripts/build.sh
+
+
+# MySQL
+
+## MySQL Procedures
+
+    - SignIn
+
+        DELIMITER $$
+        CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_validateLogin`(
+        IN p_username VARCHAR(20)
+        )
+        BEGIN
+            select * from tbl_user where user_username = p_username;
+        END$$
+        DELIMITER ;
+

@@ -2,12 +2,16 @@
 import os
 
 from flask import Flask, request, json, session, g, redirect, url_for, abort, \
-     render_template, flash
+     render_template, flash, session
 
 from flask.ext.mysql import MySQL
 
+
 # from werkzeug import generate_password_hash, check_password_hash
 app = Flask(__name__) # create the application instance :)
+
+# key to be used in session
+app.secret_key = 'why would I tell you my secret key?'
 
 mysql = MySQL()
 
@@ -61,3 +65,52 @@ def signUp():
         # return json.dumps({'html': '<span>All fields good !!</span>'})
     else:
         return json.dumps({'html': '<span>Enter the required fields</span>'})
+
+
+@app.route('/showSignin')
+def showSignin():
+    return render_template('signin.html')
+
+
+@app.route('/validateLogin', methods=['POST'])
+def validateLogin():
+    try:
+        _username = request.form['inputEmail']
+        _password = request.form['inputPassword']
+
+        # connect to mysql
+        con = mysql.connect()
+        cursor = con.cursor()
+        cursor.callproc('sp_validateLogin', (_username,))
+        data = cursor.fetchall()
+
+        if len(data) > 0:
+            # if check_password_hash(str(data[0][3]), _password):
+            if str(data[0][3]) == _password:
+                session['user'] = data[0][0]
+                return redirect('/userHome')
+            else:
+                return render_template('error.html', error='Wrong Email address or Password.')
+        else:
+            return render_template('error.html', error='Wrong Email address or Password.')
+
+    except Exception as e:
+        return render_template('error.html', error=str(e))
+
+    finally:
+        cursor.close()
+        con.close()
+
+
+@app.route('/userHome')
+def userHome():
+    if session.get('user'):
+        return render_template('userHome.html')
+    else:
+        return render_template('error.html', error='Unauthorized Access')
+
+
+@app.route('/logout')
+def logout():
+    session.pop('user',None)
+    return redirect('/')
