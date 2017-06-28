@@ -9,6 +9,8 @@ bucketlist.egg-info/requires.txt
 bucketlist.egg-info/top_level.txt
 bucketlist/static/signup.css
 bucketlist/static/js/jquery-3.2.1.js
+bucketlist/templates/error.html
 bucketlist/templates/index.html
 bucketlist/templates/signin.html
 bucketlist/templates/signup.html
+bucketlist/templates/userHome.html
